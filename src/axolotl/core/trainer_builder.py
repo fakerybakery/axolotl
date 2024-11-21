@@ -442,6 +442,7 @@ class AxolotlTrainer(SchedulerMixin, Trainer):
                 "ao_adamw_4bit",
                 "ao_adamw_fp8",
                 "adopt_adamw",
+                "q_galore_adamw8bit",
             ]
         ):
             return super().create_optimizer()
@@ -518,6 +519,11 @@ class AxolotlTrainer(SchedulerMixin, Trainer):
                     ADOPT(
                         optimizer_grouped_parameters, decoupled=True, **optimizer_kwargs
                     )
+                )
+            elif self.args.alternate_optimizer == "q_galore_adamw8bit":
+                from q_galore_torch import QGaLoreAdamW8bit
+                self.optimizer = (  # pylint: disable=attribute-defined-outside-init
+                    QGaLoreAdamW8bit(optimizer_grouped_parameters, **optimizer_kwargs)
                 )
 
         if is_sagemaker_mp_enabled():
@@ -1665,6 +1671,7 @@ class HFCausalTrainerBuilder(TrainerBuilderBase):
             "ao_adamw_8bit",
             "ao_adamw_fp8",
             "adopt_adamw",
+            "q_galore_adamw8bit",
         ]:
             # Set default so transformers doesn't throw
             training_arguments_kwargs["optim"] = "adamw_hf"
