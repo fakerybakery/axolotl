@@ -131,6 +131,7 @@ setup(
             "galore_torch",
             "lion-pytorch==0.1.2",
             "lomo-optim==0.1.1",
+            "git+https://github.com/VITA-Group/Q-GaLore",
             "torch-optimi==0.2.1",
         ],
     },
