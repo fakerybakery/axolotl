@@ -440,6 +440,7 @@ class HyperparametersConfig(BaseModel):
                 "ao_adamw_8bit",
                 "ao_adamw_fp8",
                 "adopt_adamw",
+                "optimi_adamw",
             ],
         ]
     ] = OptimizerNames.ADAMW_HF.value
